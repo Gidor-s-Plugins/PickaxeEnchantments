@@ -36,10 +36,10 @@ public class PickaxeEnchantmentsBootstrap implements PluginBootstrap {
                             RegistrySet.keySet(RegistryKey.ENCHANTMENT, Enchants.key(Enchants.HAMMER));
 
                     register(event, pickaxes, Enchants.SMELTING, "Smelting", NamedTextColor.GOLD, null);
-                    register(event, pickaxes, Enchants.MAGNETIC, "Magnetic", NamedTextColor.AQUA, null);
+                    register(event, pickaxes, Enchants.MAGNETIC, "Magnetic", NamedTextColor.DARK_PURPLE, null);
                     // Mutually exclusive
                     register(event, pickaxes, Enchants.VEINMINER, "Veinminer", NamedTextColor.GREEN, notHammer);
-                    register(event, pickaxes, Enchants.HAMMER, "Hammer", NamedTextColor.RED, notVeinminer);
+                    register(event, pickaxes, Enchants.HAMMER, "Hammer", NamedTextColor.DARK_AQUA, notVeinminer);
                 })
         );
 
