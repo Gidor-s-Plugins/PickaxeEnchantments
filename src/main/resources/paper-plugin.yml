@@ -1,0 +1,7 @@
+name: PickaxeEnchantments
+version: '${project.version}'
+main: dev.gidor.pickaxeenchantments.PickaxeEnchantmentsPlugin
+bootstrapper: dev.gidor.pickaxeenchantments.PickaxeEnchantmentsBootstrap
+api-version: '1.21'
+description: Custom pickaxe enchantments - Smelting, Veinminer, Hammer, Magnetic
+authors: [gidor]
