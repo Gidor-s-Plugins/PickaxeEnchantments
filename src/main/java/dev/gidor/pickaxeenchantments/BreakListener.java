@@ -19,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
+import org.bukkit.Sound;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -72,6 +73,7 @@ public final class BreakListener implements Listener {
         boolean silk = tool.containsEnchantment(Enchantment.SILK_TOUCH);
         List<Drop> drops = new ArrayList<>();
         double xp = 0;
+        boolean brokeOre = isOre(origin.getType());
 
         // ---- origin block (vanilla breaks it, we take over drops) ----
         Location originCenter = origin.getLocation().add(0.5, 0.5, 0.5);
@@ -108,6 +110,7 @@ public final class BreakListener implements Listener {
                 xp += extra.getExpToDrop();
                 if (!silk) xp += oreExperience(block.getType());
 
+                if (isOre(block.getType())) brokeOre = true;
                 breakEffect(block);
                 block.setType(Material.AIR, true);
             }
@@ -119,8 +122,8 @@ public final class BreakListener implements Listener {
         if (hammerActive) {
             player.getInventory().setItemInMainHand(tool.damage(2, player));
         }
-
         // ---- smelting ----
+        boolean smeltedAny = false;
         if (smelting) {
             boolean giveXp = plugin.getConfig().getBoolean("smelting.give-experience", true);
             List<Drop> smelted = new ArrayList<>(drops.size());
@@ -129,6 +132,7 @@ public final class BreakListener implements Listener {
                 if (result == null) {
                     smelted.add(drop);
                 } else {
+                    smeltedAny = true;
                     smelted.add(new Drop(drop.location(), result.item()));
                     if (giveXp) xp += result.experience();
                 }
@@ -158,6 +162,12 @@ public final class BreakListener implements Listener {
             } else {
                 originCenter.getWorld().spawn(originCenter, ExperienceOrb.class, orb -> orb.setExperience(xpAmount));
             }
+        }
+        if (magnetic && brokeOre) {
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.3f, 1.2f);
+        }
+        if (smeltedAny) {
+            originCenter.getWorld().playSound(originCenter, Sound.BLOCK_FIRE_EXTINGUISH, 0.5f, 1.0f);
         }
     }
 
