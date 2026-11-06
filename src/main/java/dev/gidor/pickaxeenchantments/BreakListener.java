@@ -61,10 +61,10 @@ public final class BreakListener implements Listener {
         // Containers drop their contents in vanilla logic - leave them alone.
         if (origin.getState(false) instanceof Container) return;
 
-        boolean requireSneak = plugin.getConfig().getBoolean("veinminer.require-sneaking", true);
+        boolean disableWhenSneaking = plugin.getConfig().getBoolean("veinminer.disable-when-sneaking", true);
         boolean hammerActive = hammer;
         boolean veinActive = !hammer && veinminer
-                && (!requireSneak || player.isSneaking())
+                && !(disableWhenSneaking && player.isSneaking())
                 && isOre(origin.getType());
 
         if (!smelting && !magnetic && !hammerActive && !veinActive) return;

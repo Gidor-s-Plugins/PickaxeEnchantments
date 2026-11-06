@@ -1,8 +1,8 @@
 veinminer:
   # Maximum number of ore blocks broken in one go (including the first one)
   max-blocks: 64
-  # Only trigger while sneaking
-  require-sneaking: true
+  # Only trigger while not sneaking
+  disable-when-sneaking: true: true
 
 hammer:
   # Only break blocks that a pickaxe is meant to mine (stone, ores, etc.)
